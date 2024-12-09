@@ -68,6 +68,6 @@ final class RegisterUITests: TestCase {
         let randomSuffix = String((0..<suffixLength).map { _ in characters.randomElement()! })
         return prefix + randomSuffix
     }
-    
+     
 }
 
