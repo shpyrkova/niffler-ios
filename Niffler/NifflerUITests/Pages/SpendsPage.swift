@@ -12,15 +12,10 @@ class SpendsPage: BasePage {
     
     @discardableResult
     func waitSpendsScreen(file: StaticString = #filePath, line: UInt = #line) -> Self {
-        let isFound = app.firstMatch
-            .scrollViews.firstMatch
-            .switches.firstMatch
-            .waitForExistence(timeout: 10)
-        
+        let isFound = app.staticTexts["Statistics"].waitForExistence(timeout: 10)
         XCTAssertTrue(isFound,
                       "Не дождались экрана со списком трат",
                       file: file, line: line)
-        
         return self
     }
     
@@ -28,12 +23,21 @@ class SpendsPage: BasePage {
         app.buttons["addSpendButton"].tap()
     }
     
-    func assertNewSpendIsShown(title: String, file: StaticString = #filePath, line: UInt = #line) {
+    func assertNewSpendIsShown(description: String, file: StaticString = #filePath, line: UInt = #line) {
         let isFound = app.firstMatch
             .scrollViews.firstMatch
-            .staticTexts[title].firstMatch
+            .staticTexts[description].firstMatch
             .waitForExistence(timeout: 1)
         
         XCTAssertTrue(isFound, file: file, line: line)
+    }
+    
+    func assertIsEmptySpendsViewAppeared(file: StaticString = #filePath, line: UInt = #line) {
+        XCTContext.runActivity(named: "Открыт пустой экран трат") { _ in
+            let isFound = app.staticTexts["0 ₽"].waitForExistence(timeout: 5)
+            XCTAssertTrue(isFound,
+                          "Отсутствует текст с нулевыми тратами",
+                          file: file, line: line)
+        }
     }
 }
