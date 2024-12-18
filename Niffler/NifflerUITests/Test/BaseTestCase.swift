@@ -28,6 +28,7 @@ class TestCase: XCTestCase {
     }
     
     lazy var loginPage: LoginPage! = LoginPage(app: app)
+    lazy var registerPage: RegisterPage! = RegisterPage(app: app)
     lazy var spendsPage: SpendsPage! = SpendsPage(app: app)
     lazy var newSpendPage: NewSpendPage! = NewSpendPage(app: app)
 }
