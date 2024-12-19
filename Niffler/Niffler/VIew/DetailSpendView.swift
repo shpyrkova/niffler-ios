@@ -239,6 +239,7 @@ struct CategorySelectorView: View {
     private func addCategory() {
         // Add to model
         categoriesRepository.add(newCategoryName)
+        selectedCategory = newCategoryName
         
         // Hide UI
         newCategoryName = ""
