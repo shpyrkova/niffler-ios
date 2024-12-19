@@ -4,20 +4,18 @@ final class SpendsUITests: TestCase {
     
     func test_whenAddSpent_shouldShowSpendInList() {
         launchAppWithoutLogin()
-        
         // Arrange
+        let description = UUID.randomPart
+        let amount = "250"
+        let category = "Рыбалка"
         loginPage
             .input(login: "stage", password: "12345")
-        
         // Act
         spendsPage
             .waitSpendsScreen()
             .addSpent()
-        
-        let description = UUID.randomPart
         newSpendPage
-            .inputSpent(description: description)
-        
+            .inputSpent(amount: amount, description: description, category: category)
         // Assert
         spendsPage
             .assertNewSpendIsShown(description: description)
@@ -25,11 +23,9 @@ final class SpendsUITests: TestCase {
     
     func test_checkEmptySpendsScreen() {
         launchAppWithoutLogin()
-        
         // Act
         loginPage
             .input(login: "empty", password: "00000000")
-        
         // Assert
         spendsPage
             .assertIsEmptySpendsViewAppeared()
@@ -39,24 +35,57 @@ final class SpendsUITests: TestCase {
         // Arrange
         let username = TestUtils.generateUsername()
         let spendDescription = "first spend"
-        let category = "first category"
+        let amount = "4360"
+        let newCategory = "first category"
+        let existingCategory = "Рыбалка"
+        let password = "00000000"
         launchAppWithoutLogin()
         loginPage.pressCreateAccountButton()
-        registerPage.register(username: username, password: "00000000")
+        registerPage.register(username: username, password: password)
         loginPage.pressLoginButton()
         // Act
         spendsPage
             .waitSpendsScreen()
             .addSpent()
-        
         newSpendPage
-            .inputAmount()
+            .input(amount: amount)
             .input(description: spendDescription)
-            .addNewCategoryIfAbsent(category: category)
+            .addNewCategoryIfAbsent(newCategory: newCategory, existingCategory: existingCategory)
             .pressAddSpend()
+        spendsPage.goToProfilePage()
+        profilePage.waitProfileScreen()
         // Assert
-        spendsPage.assertNewSpendIsShown(description: spendDescription)
+        profilePage.assertIsCategoryPresent(category: newCategory)
     }
+    
+    func test_deleteTheOneCategory() {
+        // Arrange
+        let username = TestUtils.generateUsername()
+        let password = "00000000"
+        let spendDescription = "first spend"
+        let amount = "24"
+        let category = "the one category"
+        launchAppWithoutLogin()
+        loginPage.pressCreateAccountButton()
+        registerPage.register(username: username, password: password)
+        loginPage.pressLoginButton()
+        spendsPage
+            .waitSpendsScreen()
+            .addSpent()
+        newSpendPage
+            .input(amount: amount)
+            .input(description: spendDescription)
+            .addNew(category: category)
+            .pressAddSpend()
+        // Act
+        spendsPage.goToProfilePage()
+        profilePage.deleteCategory(category: category)
+        profilePage.pressCloseButton()
+        spendsPage.addSpent()
+        // Assert
+        newSpendPage.assertIsCategoriesListEmpty()
+    }
+    
 }
 
 extension UUID {

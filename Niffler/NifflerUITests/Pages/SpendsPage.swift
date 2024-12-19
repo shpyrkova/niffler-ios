@@ -23,6 +23,13 @@ class SpendsPage: BasePage {
         app.buttons["addSpendButton"].tap()
     }
     
+    func goToProfilePage() {
+        XCTContext.runActivity(named: "Перейти на экран профиля") { _ in
+            app.images["ic_menu"].tap()
+            app.staticTexts["Profile"].tap()
+        }
+    }
+    
     func assertNewSpendIsShown(description: String, file: StaticString = #filePath, line: UInt = #line) {
         let isFound = app.firstMatch
             .scrollViews.firstMatch
