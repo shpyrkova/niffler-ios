@@ -2,11 +2,12 @@ import XCTest
 
 class ProfilePage: BasePage {
     
-    func deleteCategory(category: String) {
+    func deleteCategory(category: String) -> Self {
         XCTContext.runActivity(named: "Удалить категорию \(category)") { _ in
             app.collectionViews.staticTexts[category].swipeLeft()
             app.collectionViews.buttons["Delete"].tap()
         }
+        return self
     }
     
     func pressCloseButton() {

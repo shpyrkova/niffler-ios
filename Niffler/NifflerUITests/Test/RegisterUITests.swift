@@ -2,23 +2,17 @@ import XCTest
 
 final class RegisterUITests: TestCase {
     
-    var username: String!
-    var registrationForm: XCUIElement!
-    
-    // Arrange
-    override func setUp() {
-        super.setUp()
-        username = TestUtils.generateUsername()
-        launchAppWithoutLogin()
-    }
-    
     func test_registerSuccess() throws {
+        // Arrange
+        let username = TestUtils.generateUsername()
+        let password = "00000000"
         // Act
         loginPage.pressCreateAccountButton()
-        registerPage.register(username: username, password: "00000000")
+        registerPage.register(username: username, password: password)
         // Assert
-        registerPage.assertIsSuccessfulRegistrationPopupShown()
-        registerPage.assertLoginScreenOpens(username: username)
+        registerPage
+            .assertIsSuccessfulRegistrationPopupShown()
+            .assertLoginScreenOpens(username: username)
     }
     
 }

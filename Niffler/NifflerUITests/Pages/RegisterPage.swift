@@ -44,13 +44,14 @@ class RegisterPage: BasePage {
         }
     }
     
-    func assertIsSuccessfulRegistrationPopupShown(file: StaticString = #filePath, line: UInt = #line) {
+    func assertIsSuccessfulRegistrationPopupShown(file: StaticString = #filePath, line: UInt = #line) -> Self {
         XCTContext.runActivity(named: "Показано сообщение об успешной регистрации") { _ in
             let isFound = app.alerts["Congratulations!"].staticTexts[" You've registered!"].waitForExistence(timeout: 5)
             XCTAssertTrue(isFound,
                           "Сообщение об успешной регистрации не появилось",
                           file: file, line: line)
         }
+        return self
     }
     
     func assertLoginScreenOpens(username: String, file: StaticString = #filePath, line: UInt = #line) {

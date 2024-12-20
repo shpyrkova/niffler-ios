@@ -3,7 +3,6 @@ import XCTest
 final class SpendsUITests: TestCase {
     
     func test_whenAddSpent_shouldShowSpendInList() {
-        launchAppWithoutLogin()
         // Arrange
         let description = UUID.randomPart
         let amount = "250"
@@ -22,7 +21,6 @@ final class SpendsUITests: TestCase {
     }
     
     func test_checkEmptySpendsScreen() {
-        launchAppWithoutLogin()
         // Act
         loginPage
             .input(login: "empty", password: "00000000")
@@ -39,7 +37,6 @@ final class SpendsUITests: TestCase {
         let newCategory = "first category"
         let existingCategory = "Рыбалка"
         let password = "00000000"
-        launchAppWithoutLogin()
         loginPage.pressCreateAccountButton()
         registerPage.register(username: username, password: password)
         loginPage.pressLoginButton()
@@ -65,7 +62,6 @@ final class SpendsUITests: TestCase {
         let spendDescription = "first spend"
         let amount = "24"
         let category = "the one category"
-        launchAppWithoutLogin()
         loginPage.pressCreateAccountButton()
         registerPage.register(username: username, password: password)
         loginPage.pressLoginButton()
@@ -79,8 +75,9 @@ final class SpendsUITests: TestCase {
             .pressAddSpend()
         // Act
         spendsPage.goToProfilePage()
-        profilePage.deleteCategory(category: category)
-        profilePage.pressCloseButton()
+        profilePage
+            .deleteCategory(category: category)
+            .pressCloseButton()
         spendsPage.addSpent()
         // Assert
         newSpendPage.assertIsCategoriesListEmpty()
