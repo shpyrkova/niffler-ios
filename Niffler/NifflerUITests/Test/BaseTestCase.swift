@@ -8,6 +8,7 @@ class TestCase: XCTestCase {
         super.setUp()
         
         app = XCUIApplication()
+        launchAppWithoutLogin()
     }
     
     override func tearDown() {
@@ -16,6 +17,8 @@ class TestCase: XCTestCase {
         loginPage = nil
         spendsPage = nil
         newSpendPage = nil
+        registerPage = nil
+        profilePage = nil
         
         super.tearDown()
     }
@@ -28,7 +31,9 @@ class TestCase: XCTestCase {
     }
     
     lazy var loginPage: LoginPage! = LoginPage(app: app)
+    lazy var registerPage: RegisterPage! = RegisterPage(app: app)
     lazy var spendsPage: SpendsPage! = SpendsPage(app: app)
     lazy var newSpendPage: NewSpendPage! = NewSpendPage(app: app)
+    lazy var profilePage: ProfilePage! = ProfilePage(app: app)
 }
 
